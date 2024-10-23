@@ -4,6 +4,8 @@
             Perfil del usuario
         </h2>
 
+        <img width="50" height="50" class="rounded-full" src="{{"/storage/$user->avatar "}}" alt="user avatar" class="w-20 h-20 rounded-full mt-4">
+
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
            Agregar o actualizar la imagen de perfil del usuario.
         </p>

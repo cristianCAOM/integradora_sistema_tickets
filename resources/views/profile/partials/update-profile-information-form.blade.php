@@ -3,7 +3,7 @@
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Profile Information') }}
         </h2>
-hello universe
+
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __("Update your account's profile information and email address.") }}
         </p>
@@ -17,12 +17,12 @@ hello universe
         @csrf
         @method('patch')
 
-        <div>
+       {{--  <div>
             <x-input-label for="name" :value="__('Avatar')" />
             <x-text-input id="avatar" name="avatar" type="file" class="mt-1 block w-full" :value="old('avatar', $user->avatar)" required autofocus autocomplete="avatar" />
             <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
         </div>
-
+ --}}
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
