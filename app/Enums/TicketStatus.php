@@ -4,7 +4,7 @@ Namespace App\Enums;
 
 enum TicketStatus: string
 {
-    case OPEN = 'open';
-    case RESOLVED = 'resolved';
-    case REJECTED = 'rejected';
+    case OPEN = 'Abierto';
+    case RESOLVED = 'Resuelto';
+    case REJECTED = 'Rechazado';
 }

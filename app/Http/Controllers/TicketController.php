@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
-use App\Http\Requests\StoreTicketRequest;
-use App\Http\Requests\UpdateTicketRequest;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateTicketRequest;
 
 class TicketController extends Controller
 {
@@ -15,7 +16,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::all();
+        return view('ticket.index', compact('tickets'));
+
     }
 
     /**
@@ -29,31 +32,22 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTicketRequest $request)
+    public function store(Request $request)
     {
-
-        //dd($request->file('attachment')->extension());
-
-
-       /*  $contents = file_get_contents($request->file('attachment'));
-        $filaname =Str::random(25);
-        Storage::disk('public')->put("avatars/$filaname.jpg",$contents); */
-        /* Storage::disk('public')->put('avatars', $request->file('avatar')); */
-
+        // Validar y crear el ticket
         $ticket = Ticket::create([
             'title' => $request->title,
             'description' => $request->description,
             'user_id' => auth()->id(),
         ]);
-        if($request->file('attachment')){
-            $ext=$request->file('attachment')->extension();
-            $contents = file_get_contents($request->file('attachment'));
-            $filaname =Str::random(25);
-            $path = "attachments/$filaname.$ext";
-            Storage::disk('public')->put($path,$contents);
-            $ticket->update(['attachment'=>$path]);
+
+        // Manejar el archivo adjunto
+        if ($request->file('attachment')) {
+           $this->storeAttachment($request, $ticket);
         }
-        return response()->redirect(route   ('ticket.index'));
+
+        // Redirigir a la página de índice de tickets
+        return redirect()->route('ticket.index');
     }
 
     /**
@@ -61,7 +55,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('ticket.show', compact('ticket'));
     }
 
     /**
@@ -69,15 +63,19 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        return view('ticket.edit', compact('ticket'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        //
+
+        $ticket->update($request->except('attachment'));
+        if ($request->file('attachment')) {
+            Storage::disk('public')->delete($ticket->attachment);
+            $this->storeAttachment($request, $ticket);
+        }
+
+        return redirect()->route('ticket.index');
     }
 
     /**
@@ -85,6 +83,26 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        $ticket->delete();
+        return redirect()->route('ticket.index');
+    }
+    protected function storeAttachment($request, $ticket)
+    {
+        $ext = $request->file('attachment')->extension();
+        $contents = file_get_contents($request->file('attachment'));
+        $filename = Str::random(25);
+        $path = "attachments/$filename.$ext";
+        Storage::disk('public')->put($path, $contents);
+        return $path;
     }
 }
+
+
+
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+
+
