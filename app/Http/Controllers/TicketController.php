@@ -16,9 +16,16 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
-        return view('ticket.index', compact('tickets'));
+        $user = Auth::user();
 
+        // Filtrar los tickets según el rol del usuario
+        if ($user->is_admin) {
+            $tickets = Ticket::all();
+        } else {
+            $tickets = Ticket::where('user_id', $user->id)->get();
+        }
+
+        return view('ticket.index', compact('tickets'));
     }
 
     /**
@@ -43,7 +50,7 @@ class TicketController extends Controller
 
         // Manejar el archivo adjunto
         if ($request->file('attachment')) {
-           $this->storeAttachment($request, $ticket);
+            $this->storeAttachment($request, $ticket);
         }
 
         // Redirigir a la página de índice de tickets
@@ -55,6 +62,14 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
+        $user = Auth::user();
+
+        // Verificar si el usuario es el creador del ticket o un administrador
+        if ($user->id !== $ticket->user_id && !$user->is_admin) {
+            // Redirigir o mostrar un mensaje de error
+            return redirect()->route('ticket.index')->with('error', 'No tienes permiso para ver este ticket.');
+        }
+
         return view('ticket.show', compact('ticket'));
     }
 
@@ -68,11 +83,15 @@ class TicketController extends Controller
 
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-
         $ticket->update($request->except('attachment'));
+
         if ($request->file('attachment')) {
-            Storage::disk('public')->delete($ticket->attachment);
-            $this->storeAttachment($request, $ticket);
+            // Verifica si el ticket tiene un archivo adjunto antes de intentar eliminarlo
+            if ($ticket->attachment) {
+                Storage::disk('public')->delete($ticket->attachment);
+            }
+            $ticket->attachment = $this->storeAttachment($request, $ticket);
+            $ticket->save();
         }
 
         return redirect()->route('ticket.index');
@@ -86,6 +105,7 @@ class TicketController extends Controller
         $ticket->delete();
         return redirect()->route('ticket.index');
     }
+
     protected function storeAttachment($request, $ticket)
     {
         $ext = $request->file('attachment')->extension();
@@ -96,13 +116,3 @@ class TicketController extends Controller
         return $path;
     }
 }
-
-
-
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-
-

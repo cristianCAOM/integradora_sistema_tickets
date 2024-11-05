@@ -7,19 +7,19 @@
                 @method('patch')
                 <!-- Email Address -->
                 <div class="mt-4">
-                    <x-input-label for="title" :value="__('Titulo')" />
+                    <x-input-label for="title" :value="__('Title')" />
                     <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" autofocus value="{{$ticket->title}}" />
                     <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
-                    <x-input-label for="description" :value="__('Descripcion')" />
+                    <x-input-label for="description" :value="__('Description')" />
                     <x-textarea placeholder="Add description" name="description" id="description" value="{{$ticket->description}}" />
                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
-                    <x-input-label for="attachment" :value="__('Adjuntar archivo (Si hay)')" />
+                    <x-input-label for="attachment" :value="__('Attachment (if any)')" />
                     <x-file-input name="attachment" id="attachment" />
                     <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
                 </div>

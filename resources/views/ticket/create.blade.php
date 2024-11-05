@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <x-input-label for="attachment" :value="__('Adjuntar archivo (Si hay)')" />
+                    <x-input-label for="attachment" :value="__('Attachment (if any)')" />
                     <x-file-input name="attachment" id="attachment" />
                     <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
                 </div>
