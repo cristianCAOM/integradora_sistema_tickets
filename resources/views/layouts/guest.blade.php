@@ -13,16 +13,49 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            body {
+                background-color: #000; /* Fondo negro */
+            }
+            .logo {
+                width: 80px; /* Tamaño del logo */
+                height: 80px; /* Tamaño del logo */
+                margin-bottom: 20px; /* Espacio debajo del logo */
+            }
+            .container {
+                background-color: #1F2937; /* Fondo gris oscuro */
+                border-radius: 10px; /* Esquinas redondeadas */
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Sombra */
+                padding: 30px; /* Relleno interior */
+                width: 100%; /* Ancho completo */
+                max-width: 400px; /* Ancho máximo */
+                text-align: center; /* Centrar texto */
+            }
+            .title {
+                font-size: 24px; /* Tamaño del título */
+                font-weight: 600; /* Peso de la fuente */
+                color: #FFFFFF; /* Color blanco */
+                margin-bottom: 20px; /* Espacio inferior */
+            }
+            .description {
+                color: #B0BEC5; /* Color gris claro */
+                margin-bottom: 20px; /* Espacio inferior */
+            }
+        </style>
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-white"> <!-- Cambié bg-gray-100 a bg-white -->
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    {{-- <x-application-logo class="logo fill-current text-gray-500" /> --}}
+
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"> <!-- bg-white ya está correcto -->
+            <div class="container"> <!-- Cambié el fondo a un gris oscuro -->
+                <div class="title">Bienvenido </div>
+
                 {{ $slot }}
             </div>
         </div>

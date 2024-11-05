@@ -50,7 +50,8 @@ class TicketController extends Controller
 
         // Manejar el archivo adjunto
         if ($request->file('attachment')) {
-            $this->storeAttachment($request, $ticket);
+            $ticket->attachment = $this->storeAttachment($request, $ticket);
+            $ticket->save();
         }
 
         // Redirigir a la página de índice de tickets
@@ -109,10 +110,8 @@ class TicketController extends Controller
     protected function storeAttachment($request, $ticket)
     {
         $ext = $request->file('attachment')->extension();
-        $contents = file_get_contents($request->file('attachment'));
-        $filename = Str::random(25);
-        $path = "attachments/$filename.$ext";
-        Storage::disk('public')->put($path, $contents);
+        $filename = Str::random(25) . '.' . $ext;
+        $path = $request->file('attachment')->storeAs('attachments', $filename, 'public');
         return $path;
     }
 }

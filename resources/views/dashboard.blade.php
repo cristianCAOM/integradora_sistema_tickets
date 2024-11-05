@@ -7,31 +7,32 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("Bienvenido") }}
-                , {{ Auth::user()->name }}
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-md">
-                        <a href="{{ route('ticket.store') }}" class="block text-gray-900 dark:text-gray-100">
-                            <h3 class="text-lg font-semibold mb-2">Ver Tickets</h3>
-                            <p>Consulta todos los tickets disponibles.</p>
-                        </a>
-                    </div>
-                    <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-md">
-                        <a href="{{ route('ticket.create') }}" class="block text-gray-900 dark:text-gray-100">
-                            <h3 class="text-lg font-semibold mb-2">Crear Tickets</h3>
-                            <p>Genera un nuevo ticket.</p>
-                        </a>
-                    </div>
+                    <h3 class="text-2xl font-bold">{{ __("Bienvenido,") }} {{ Auth::user()->name }}</h3>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">Aquí tienes un acceso rápido a tus tareas más frecuentes.</p>
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+
+                    <!-- Tarjeta de Ver Tickets -->
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <a href="{{ route('ticket.store') }}" class="block text-white">
+                            <h3 class="text-xl font-semibold mb-2">Ver Tickets</h3>
+                            <p class="text-sm">Consulta todos los tickets disponibles y mantente al tanto de su progreso.</p>
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta de Crear Tickets -->
+                    <div class="bg-gradient-to-r from-green-500 to-teal-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <a href="{{ route('ticket.create') }}" class="block text-white">
+                            <h3 class="text-xl font-semibold mb-2">Crear Tickets</h3>
+                            <p class="text-sm">Genera un nuevo ticket para solicitar soporte.</p>
+                        </a>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-
-
-    </div>
-
 </x-app-layout>
