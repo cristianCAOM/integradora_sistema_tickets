@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -33,7 +34,8 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('ticket.create');
+        $categories = Category::pluck('name', 'id');
+        return view('ticket.create', compact('categories'));
     }
 
     /**
@@ -46,6 +48,8 @@ class TicketController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'user_id' => auth()->id(),
+            'urgency' => $request->urgency,
+            'category_id' => $request->category, // Agrega el campo category_id aquí
         ]);
 
         // Manejar el archivo adjunto
@@ -81,7 +85,8 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        return view('ticket.edit', compact('ticket'));
+        $categories = Category::pluck('name', 'id');
+        return view('ticket.edit', compact('ticket', 'categories'));
     }
 
     public function update(UpdateTicketRequest $request, Ticket $ticket)

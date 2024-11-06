@@ -14,7 +14,9 @@ class Ticket extends Model
         'description',
         'attachment',
         'user_id',
-        'status'
+        'status',
+        'urgency',
+        'category_id', // Agrega el campo category_id aquí
     ];
 
     public function user()
@@ -25,5 +27,10 @@ class Ticket extends Model
     public function responses()
     {
         return $this->hasMany(Response::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

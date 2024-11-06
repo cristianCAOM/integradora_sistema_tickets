@@ -24,6 +24,17 @@
                     <x-input-error :messages="$errors->get('description')" class="mt-2 text-red-600" />
                 </div>
 
+                <!-- Campo de Urgencia -->
+                <div class="mt-4">
+                    <x-input-label for="urgency" :value="__('Urgencia')" class="text-gray-800 dark:text-gray-100" />
+                    <select id="urgency" name="urgency" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500">
+                        <option value="Baja" {{ $ticket->urgency == 'Baja' ? 'selected' : '' }}>Baja</option>
+                        <option value="Normal" {{ $ticket->urgency == 'Normal' ? 'selected' : '' }}>Normal</option>
+                        <option value="Alta" {{ $ticket->urgency == 'Alta' ? 'selected' : '' }}>Alta</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('urgency')" class="mt-2 text-red-600" />
+                </div>
+
                 <!-- Campo de Adjunto -->
                 <div class="mt-4">
                     <x-input-label for="attachment" :value="__('Attachment/Adjuntar Archivo (Opcional)')" class="text-gray-800 dark:text-gray-100" />

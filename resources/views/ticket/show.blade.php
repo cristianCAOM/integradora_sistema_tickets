@@ -38,6 +38,20 @@
                         @endif
                     </div>
                 </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Categoría</h3>
+                    @if ($ticket->category)
+                        <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded">{{ $ticket->category->name }}</span>
+                    @else
+                        <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded">Sin Categoría</span>
+                    @endif
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Urgencia</h3>
+                    <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded">{{ $ticket->urgency }}</span>
+                </div>
             </div>
 
             <!-- Sección de Respuestas -->
@@ -54,7 +68,7 @@
                     <form method="POST" action="{{ route('responses.store', $ticket) }}" class="mt-4">
                         @csrf
                         <div class="mb-4">
-                            <x-input-label for="response" :value="__('Respuesta')" />
+                            <x-input-label for="response" :value="__('Respuesta o Comentario')" />
                             <textarea id="response" name="response" class="block mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500" required></textarea>
                         </div>
                         <div class="flex items-center justify-end">
