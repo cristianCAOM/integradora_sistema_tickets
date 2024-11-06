@@ -71,7 +71,9 @@ class TicketController extends Controller
             return redirect()->route('ticket.index')->with('error', 'No tienes permiso para ver este ticket.');
         }
 
-        return view('ticket.show', compact('ticket'));
+        $responses = $ticket->responses()->with('user')->get();
+
+        return view('ticket.show', compact('ticket', 'responses'));
     }
 
     /**

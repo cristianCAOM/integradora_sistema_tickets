@@ -3,6 +3,7 @@
 use App\Http\Controllers\Profile\AvatarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\ResponseController; // Asegúrate de importar el controlador de respuestas
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -67,4 +68,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 Route::middleware('auth')->group(function () {
     Route::resource('ticket', TicketController::class);
+    Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store'); // Definir la ruta para crear respuestas
 });

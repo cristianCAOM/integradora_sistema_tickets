@@ -9,7 +9,6 @@ class Ticket extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'title',
         'description',
@@ -17,8 +16,14 @@ class Ticket extends Model
         'user_id',
         'status'
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function responses()
+    {
+        return $this->hasMany(Response::class);
     }
 }
