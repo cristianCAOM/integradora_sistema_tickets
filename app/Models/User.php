@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'avatar',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -63,9 +64,8 @@ class User extends Authenticatable
 
     protected function isAdmin(): Attribute
     {
-        $admins = ['caom19@gmail.com']; // Agrega aquí el correo electrónico del usuario
         return Attribute::make(
-            get: fn () => in_array($this->email, $admins)
+            get: fn () => $this->attributes['is_admin']
         );
     }
 }

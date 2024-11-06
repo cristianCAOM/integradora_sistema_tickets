@@ -17,7 +17,7 @@
 
                     <!-- Tarjeta de Ver Tickets -->
                     <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
-                        <a href="{{ route('ticket.store') }}" class="block text-white">
+                        <a href="{{ route('ticket.index') }}" class="block text-white">
                             <h3 class="text-xl font-semibold mb-2">Ver Tickets</h3>
                             <p class="text-sm">Consulta todos los tickets disponibles y mantente al tanto de su progreso.</p>
                         </a>
@@ -30,6 +30,16 @@
                             <p class="text-sm">Genera un nuevo ticket para solicitar soporte.</p>
                         </a>
                     </div>
+
+                    <!-- Tarjeta de Administrar Usuarios -->
+                    @if (Auth::user()->is_admin)
+                    <div class="bg-gradient-to-r from-red-500 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <a href="{{ route('admin.users.index') }}" class="block text-white">
+                            <h3 class="text-xl font-semibold mb-2">Administrar Usuarios</h3>
+                            <p class="text-sm">Gestiona los usuarios y asigna roles de administrador.</p>
+                        </a>
+                    </div>
+                    @endif
 
                 </div>
             </div>

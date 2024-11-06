@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,13 +60,11 @@ Route::get('/auth/github/callback', function () {
     return redirect('/dashboard');
 });
 
+// Rutas para administrar usuarios
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', UserController::class)->only(['index', 'edit', 'update', 'destroy']);
+});
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/ticket', TicketController::class);
-/* Route::middleware('auth')->prefix('ticket')->group(function () {
-    Route::resource('/', TicketController::class); */
-   /*  Route::get('/ticket/create',[TicketController::class, 'create'])->name('ticket.create');
-    Route::post('/ticket/create',[TicketController::class, 'store'])->name('ticket.store'); */
-
-
+    Route::resource('ticket', TicketController::class);
 });
