@@ -1,14 +1,14 @@
 <?php
-
 use App\Http\Controllers\Profile\AvatarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
-use App\Http\Controllers\ResponseController; // Asegúrate de importar el controlador de respuestas
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use App\Http\Controllers\Admin\UserController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $categories = \App\Models\Category::all();
+    return view('dashboard', compact('categories'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -64,9 +65,16 @@ Route::get('/auth/github/callback', function () {
 // Rutas para administrar usuarios
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class)->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('categories', CategoryController::class); // Agrega las rutas para categorías
 });
 
 Route::middleware('auth')->group(function () {
     Route::resource('ticket', TicketController::class);
-    Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store'); // Definir la ruta para crear respuestas
+    Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('ticket', TicketController::class);
+    Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store');
+    Route::delete('responses/{response}', [ResponseController::class, 'destroy'])->name('responses.destroy');
 });

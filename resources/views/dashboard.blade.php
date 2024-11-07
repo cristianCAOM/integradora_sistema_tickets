@@ -31,6 +31,31 @@
                         </a>
                     </div>
 
+                    <!-- Tarjeta de Gestionar Categorías -->
+                    @if (Auth::user()->isAdmin())
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Agregar Categoría</h3>
+                        <form method="POST" action="{{ route('admin.categories.store') }}">
+                            @csrf
+                            <div class="mb-4">
+                                <x-input-label for="name" :value="__('Nombre de la Categoría')" class="text-white" />
+                                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" required autofocus />
+                                <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-600" />
+                            </div>
+                            <div class="flex items-center justify-end mt-4">
+                                <x-primary-button class="ml-3 bg-blue-600 text-white">
+                                    {{ __('Agregar Categoría') }}
+                                </x-primary-button>
+                            </div>
+                        </form>
+                        <div class="flex items-center justify-end mt-4">
+                            <a href="{{ route('admin.categories.index') }}" class="ml-3 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                                {{ __('Ver Categorías') }}
+                            </a>
+                        </div>
+                    </div>
+                    @endif
+
                     <!-- Tarjeta de Administrar Usuarios -->
                     @if (Auth::user()->is_admin)
                     <div class="bg-gradient-to-r from-red-500 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
@@ -42,7 +67,6 @@
                     @endif
 
                 </div>
-            </div>
         </div>
     </div>
 </x-app-layout>

@@ -3,24 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Response;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ResponseController extends Controller
 {
-    public function store(Request $request, Ticket $ticket)
+    /**
+     * Store a newly created response in storage.
+     */
+    public function store(Request $request, $ticketId)
     {
         $request->validate([
             'response' => 'required|string',
         ]);
 
         Response::create([
-            'ticket_id' => $ticket->id,
-            'user_id' => Auth::id(),
             'response' => $request->response,
+            'user_id' => auth()->id(),
+            'ticket_id' => $ticketId,
         ]);
 
-        return redirect()->route('ticket.show', $ticket)->with('success', 'Response added successfully.');
+        return redirect()->route('ticket.show', $ticketId)->with('success', 'Respuesta agregada exitosamente.');
+    }
+
+    /**
+     * Remove the specified response from storage.
+     */
+    public function destroy(Response $response)
+    {
+        $response->delete();
+        return redirect()->back()->with('success', 'Respuesta eliminada exitosamente.');
     }
 }

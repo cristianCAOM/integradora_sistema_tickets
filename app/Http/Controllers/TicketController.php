@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UpdateTicketRequest;
 
 class TicketController extends Controller
 {
@@ -43,23 +42,28 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar y crear el ticket
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|exists:categories,id',
+            'urgency' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx',
+        ]);
+
         $ticket = Ticket::create([
             'title' => $request->title,
             'description' => $request->description,
             'user_id' => auth()->id(),
             'urgency' => $request->urgency,
-            'category_id' => $request->category, // Agrega el campo category_id aquí
+            'category_id' => $request->category,
         ]);
 
-        // Manejar el archivo adjunto
         if ($request->file('attachment')) {
             $ticket->attachment = $this->storeAttachment($request, $ticket);
             $ticket->save();
         }
 
-        // Redirigir a la página de índice de tickets
-        return redirect()->route('ticket.index');
+        return redirect()->route('ticket.index')->with('success', 'Ticket creado exitosamente.');
     }
 
     /**
@@ -86,15 +90,34 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $categories = Category::pluck('name', 'id');
-        return view('ticket.edit', compact('ticket', 'categories'));
+        $responses = $ticket->responses()->with('user')->get();
+        return view('ticket.edit', compact('ticket', 'categories', 'responses'));
     }
 
-    public function update(UpdateTicketRequest $request, Ticket $ticket)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Ticket $ticket)
     {
-        $ticket->update($request->except('attachment'));
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|exists:categories,id',
+            'urgency' => 'required|string',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx',
+            'status' => 'required|string|in:Abierto,Resuelto,Rechazado',
+        ]);
+
+        $ticket->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->category,
+            'urgency' => $request->urgency,
+            'status' => $request->status,
+        ]);
 
         if ($request->file('attachment')) {
-            // Verifica si el ticket tiene un archivo adjunto antes de intentar eliminarlo
+            // Eliminar el archivo adjunto anterior si existe
             if ($ticket->attachment) {
                 Storage::disk('public')->delete($ticket->attachment);
             }
@@ -102,7 +125,7 @@ class TicketController extends Controller
             $ticket->save();
         }
 
-        return redirect()->route('ticket.index');
+        return redirect()->route('ticket.show', $ticket)->with('success', 'Ticket actualizado exitosamente.');
     }
 
     /**
@@ -110,8 +133,14 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
+        // Eliminar el archivo adjunto si existe
+        if ($ticket->attachment) {
+            Storage::disk('public')->delete($ticket->attachment);
+        }
+
         $ticket->delete();
-        return redirect()->route('ticket.index');
+
+        return redirect()->route('ticket.index')->with('success', 'Ticket eliminado exitosamente.');
     }
 
     protected function storeAttachment($request, $ticket)

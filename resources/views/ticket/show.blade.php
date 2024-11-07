@@ -29,9 +29,9 @@
                             <form action="{{ route('ticket.update', $ticket->id) }}" method="post" class="flex space-x-2">
                                 @csrf
                                 @method('patch')
-                                <button name="status" value="Abierto" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-semibold">Abierto</button>
-                                <button name="status" value="Resuelto" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 font-semibold">Resuelto</button>
-                                <button name="status" value="Rechazado" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 font-semibold">Rechazado</button>
+                                <button name="status" value="Abierto" class="px-4 py-2  bg-yellow-500 text-white rounded-md  hover:bg-yellow-600  font-semibold">Abierto</button>
+                                <button name="status" value="Resuelto" class="px-4 py-2  bg-green-500 text-white rounded-md  hover:bg-green-600 font-semibold">Resuelto</button>
+                                <button name="status" value="Rechazado" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 font-semibold">No Resuelto</button>
                             </form>
                         @else
                             <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded">{{ $ticket->status }}</span>
@@ -61,6 +61,13 @@
                     <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
                         <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $response->user->name }} <span class="text-sm text-gray-600 dark:text-gray-400">({{ $response->created_at->diffForHumans() }})</span></p>
                         <p class="mt-2 text-gray-700 dark:text-gray-300">{{ $response->response }}</p>
+                        @if (auth()->user()->is_admin || auth()->user()->id === $response->user_id)
+                            <form action="{{ route('responses.destroy', $response) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta respuesta?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="mt-2 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">Eliminar</button>
+                            </form>
+                        @endif
                     </div>
                 @endforeach
 

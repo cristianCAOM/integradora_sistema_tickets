@@ -62,10 +62,14 @@ class User extends Authenticatable
         );
     }
 
-    protected function isAdmin(): Attribute
+    /* protected function isAdmin(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->attributes['is_admin']
         );
+    } */
+    public function isAdmin()
+    {
+        return $this->is_admin;
     }
 }
