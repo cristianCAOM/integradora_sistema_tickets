@@ -54,19 +54,20 @@
                 </div>
 
                 <!-- Campo de Estado (Editable para Administradores, Oculto para Usuarios Comunes) -->
-                @if (Auth::user()->is_admin)
-                    <div class="mt-4">
-                        <x-input-label for="status" :value="__('Estado')" class="text-gray-800 dark:text-gray-100" />
+                <div class="mt-4">
+                    <x-input-label for="status" :value="__('Estado')" class="text-gray-800 dark:text-gray-100" />
+                    @if (Auth::user()->is_admin)
                         <select id="status" name="status" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500">
                             <option value="Abierto" {{ $ticket->status == 'Abierto' ? 'selected' : '' }}>Abierto</option>
                             <option value="Resuelto" {{ $ticket->status == 'Resuelto' ? 'selected' : '' }}>Resuelto</option>
                             <option value="Rechazado" {{ $ticket->status == 'Rechazado' ? 'selected' : '' }}>Rechazado</option>
                         </select>
-                        <x-input-error :messages="$errors->get('status')" class="mt-2 text-red-600" />
-                    </div>
-                @else
-                    <input type="hidden" name="status" value="{{ $ticket->status }}">
-                @endif
+                    @else
+                        <x-text-input id="status" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500" type="text" name="status" value="{{ $ticket->status }}" readonly />
+                        <input type="hidden" name="status" value="{{ $ticket->status }}">
+                    @endif
+                    <x-input-error :messages="$errors->get('status')" class="mt-2 text-red-600" />
+                </div>
 
                 <!-- Botón de Envío -->
                 <div class="flex items-center justify-end mt-6">

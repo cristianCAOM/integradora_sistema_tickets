@@ -25,17 +25,7 @@
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Estado</h3>
                     <div class="mt-2">
-                        @if (auth()->user()->is_admin)
-                            <form action="{{ route('ticket.update', $ticket->id) }}" method="post" class="flex space-x-2">
-                                @csrf
-                                @method('patch')
-                                <button name="status" value="Abierto" class="px-4 py-2  bg-yellow-500 text-white rounded-md  hover:bg-yellow-600  font-semibold">Abierto</button>
-                                <button name="status" value="Resuelto" class="px-4 py-2  bg-green-500 text-white rounded-md  hover:bg-green-600 font-semibold">Resuelto</button>
-                                <button name="status" value="Rechazado" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 font-semibold">No Resuelto</button>
-                            </form>
-                        @else
-                            <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded">{{ $ticket->status }}</span>
-                        @endif
+                        <span class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded">{{ $ticket->status }}</span>
                     </div>
                 </div>
 
