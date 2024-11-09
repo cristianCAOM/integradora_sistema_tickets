@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TicketController extends Controller
 {
@@ -149,5 +150,28 @@ class TicketController extends Controller
         $filename = Str::random(25) . '.' . $ext;
         $path = $request->file('attachment')->storeAs('attachments', $filename, 'public');
         return $path;
+    }
+      /**
+     * Generate a PDF report of the tickets.
+     */
+    public function generatePDF()
+    {
+        $tickets = Ticket::all();
+
+        $pdf = Pdf::loadView('ticket.pdf', compact('tickets'));
+
+        return $pdf->download('reporte_tickets.pdf');
+    }
+
+    /**
+     * Preview a PDF report of the tickets.
+     */
+    public function previewPDF()
+    {
+        $tickets = Ticket::all();
+
+        $pdf = Pdf::loadView('ticket.pdf', compact('tickets'));
+
+        return $pdf->stream('reporte_tickets.pdf');
     }
 }

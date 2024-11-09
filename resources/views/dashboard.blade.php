@@ -66,7 +66,18 @@
                     </div>
                     @endif
 
+                    <!-- Tarjeta de Generar Reporte PDF -->
+                    <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Generar Reporte PDF</h3>
+                        <p class="text-sm text-white mb-4">Genera o previsualiza un reporte PDF de todos los tickets creados.</p>
+                        <div class="flex justify-between">
+                            <a href="{{ route('tickets.pdf') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Generar PDF</a>
+                            <a href="{{ route('tickets.pdf.preview') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Previsualizar PDF</a>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

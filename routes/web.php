@@ -78,3 +78,5 @@ Route::middleware('auth')->group(function () {
     Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store');
     Route::delete('responses/{response}', [ResponseController::class, 'destroy'])->name('responses.destroy');
 });
+Route::get('/tickets/pdf', [TicketController::class, 'generatePDF'])->name('tickets.pdf');
+Route::get('/tickets/pdf/preview', [TicketController::class, 'previewPDF'])->name('tickets.pdf.preview');
