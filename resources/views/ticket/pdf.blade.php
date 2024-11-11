@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reporte de Tickets</title>
+    <title>Tickets</title>
     <style>
         body {
-            font-family: 'DejaVu Sans', sans-serif;
+            font-family: Arial, sans-serif;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        table, th, td {
-            border: 1px solid black;
-        }
         th, td {
+            border: 1px solid #ddd;
             padding: 8px;
-            text-align: left;
         }
         th {
             background-color: #f2f2f2;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-    <h1>Reporte de Tickets</h1>
+    <h2>Lista de Tickets</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Título</th>
                 <th>Descripción</th>
-                <th>Usuario</th>
                 <th>Estado</th>
-                <th>Fecha de Creación</th>
+                <th>Técnico Asignado</th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +38,8 @@
                     <td>{{ $ticket->id }}</td>
                     <td>{{ $ticket->title }}</td>
                     <td>{{ $ticket->description }}</td>
-                    <td>{{ $ticket->user->name }}</td>
                     <td>{{ $ticket->status }}</td>
-                    <td>{{ $ticket->created_at->format('d/m/Y') }}</td>
+                    <td>{{ $ticket->technician ? $ticket->technician->name : 'No asignado' }}</td>
                 </tr>
             @endforeach
         </tbody>

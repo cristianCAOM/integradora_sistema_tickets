@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -22,6 +23,8 @@ class TicketController extends Controller
         // Filtrar los tickets según el rol del usuario
         if ($user->is_admin) {
             $tickets = Ticket::all();
+        } elseif ($user->role == 'technician') {
+            $tickets = Ticket::where('technician_id', $user->id)->get();
         } else {
             $tickets = Ticket::where('user_id', $user->id)->get();
         }
@@ -74,8 +77,8 @@ class TicketController extends Controller
     {
         $user = Auth::user();
 
-        // Verificar si el usuario es el creador del ticket o un administrador
-        if ($user->id !== $ticket->user_id && !$user->is_admin) {
+        // Verificar si el usuario es el creador del ticket, un administrador o el técnico asignado
+        if ($user->id !== $ticket->user_id && !$user->is_admin && $user->id !== $ticket->technician_id) {
             // Redirigir o mostrar un mensaje de error
             return redirect()->route('ticket.index')->with('error', 'No tienes permiso para ver este ticket.');
         }
@@ -91,8 +94,9 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $categories = Category::pluck('name', 'id');
+        $technicians = User::where('role', 'technician')->pluck('name', 'id');
         $responses = $ticket->responses()->with('user')->get();
-        return view('ticket.edit', compact('ticket', 'categories', 'responses'));
+        return view('ticket.edit', compact('ticket', 'categories', 'technicians', 'responses'));
     }
 
     /**
@@ -107,6 +111,7 @@ class TicketController extends Controller
             'urgency' => 'required|string',
             'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx',
             'status' => 'required|string|in:Abierto,Resuelto,Rechazado',
+            'technician_id' => 'nullable|exists:users,id',
         ]);
 
         $ticket->update([
@@ -115,6 +120,7 @@ class TicketController extends Controller
             'category_id' => $request->category,
             'urgency' => $request->urgency,
             'status' => $request->status,
+            'technician_id' => $request->technician_id,
         ]);
 
         if ($request->file('attachment')) {
@@ -151,7 +157,8 @@ class TicketController extends Controller
         $path = $request->file('attachment')->storeAs('attachments', $filename, 'public');
         return $path;
     }
-      /**
+
+    /**
      * Generate a PDF report of the tickets.
      */
     public function generatePDF()

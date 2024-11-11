@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUrgencyToTicketsTable extends Migration
+class AddTechnicianIdToTicketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,9 @@ class AddUrgencyToTicketsTable extends Migration
     public function up()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            if (!Schema::hasColumn('tickets', 'urgency')) {
-                $table->string('urgency')->default('Normal')->after('status');
+            if (!Schema::hasColumn('tickets', 'technician_id')) {
+                $table->unsignedBigInteger('technician_id')->nullable()->after('status');
+                $table->foreign('technician_id')->references('id')->on('technicians')->onDelete('set null');
             }
         });
     }
@@ -28,7 +29,8 @@ class AddUrgencyToTicketsTable extends Migration
     public function down()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->dropColumn('urgency');
+            $table->dropForeign(['technician_id']);
+            $table->dropColumn('technician_id');
         });
     }
 }

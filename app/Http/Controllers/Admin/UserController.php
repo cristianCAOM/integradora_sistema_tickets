@@ -16,21 +16,26 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $roles = ['admin' => 'Administrador', 'technician' => 'Técnico', 'user' => 'Usuario'];
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
     {
-        $user->update([
-            'is_admin' => $request->has('is_admin'),
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|string|in:admin,technician,user',
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        $user->update($request->all());
+
+        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }

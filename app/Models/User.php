@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -25,7 +23,7 @@ class User extends Authenticatable
         'email',
         'avatar',
         'password',
-        'is_admin',
+        'role', // Cambiado de 'is_admin' a 'role'
     ];
 
     /**
@@ -45,7 +43,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        //'password' => 'hashed',
     ];
 
     protected function name(): Attribute
@@ -62,14 +59,17 @@ class User extends Authenticatable
         );
     }
 
-    /* protected function isAdmin(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->attributes['is_admin']
-        );
-    } */
     public function isAdmin()
     {
-        return $this->is_admin;
+        return $this->role === 'admin';
     }
+
+    public function isTechnician()
+    {
+        return $this->role === 'technician';
+    }
+    public function assignedTickets()
+{
+    return $this->hasMany(Ticket::class, 'technician_id');
+}
 }

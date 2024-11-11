@@ -6,6 +6,7 @@
             <div class="bg-indigo-600 text-white p-6 rounded-t-lg">
                 <h1 class="text-2xl font-extrabold">{{ $ticket->title }}</h1>
                 <p class="text-sm mt-2">Creado por <span class="font-semibold">{{ $ticket->user->name }}</span> - {{ $ticket->created_at->format('d M, Y') }}</p>
+                <p class="text-sm mt-2">Tecnico Asignado: <span class="font-semibold">{{ $ticket->technician ? $ticket->technician->name : 'No asignado' }}</span></p>
             </div>
 
             <!-- Contenido del Ticket -->

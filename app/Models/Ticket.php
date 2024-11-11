@@ -17,6 +17,7 @@ class Ticket extends Model
         'status',
         'urgency',
         'category_id', // Agrega el campo category_id aquí
+        'technician_id',
     ];
 
     public function user()
@@ -32,5 +33,9 @@ class Ticket extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function technician()
+    {
+        return $this->belongsTo(User::class, 'technician_id');
     }
 }

@@ -1,73 +1,71 @@
 <x-app-layout>
-    <div class="container mx-auto py-8">
-        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-            <h1 class="text-3xl font-bold text-white mb-6">Edit User</h1>
-            <form method="POST" action="{{ route('admin.users.update', $user) }}">
-                @csrf
-                @method('PUT')
+    <x-slot name="header">
+        <h2 class="font-semibold text-2xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Editar Usuario') }}
+        </h2>
+    </x-slot>
 
-                <div class="mb-4">
-                    <x-input-label for="name" :value="__('Name')" class="text-gray-300" />
-                    <x-text-input id="name" class="block mt-1 w-full p-3 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500" type="text" name="name" value="{{ $user->name }}" disabled />
-                </div>
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-8 bg-gray-900 text-gray-100">
+                    <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-6">
+                        @csrf
+                        @method('PATCH')
 
-                <div class="mb-4">
-                    <x-input-label for="email" :value="__('Email')" class="text-gray-300" />
-                    <x-text-input id="email" class="block mt-1 w-full p-3 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500" type="email" name="email" value="{{ $user->email }}" disabled />
-                </div>
+                        <!-- Nombre -->
+                        <div>
+                            <x-input-label for="name" :value="__('Nombre')" class="text-gray-300" />
+                            <x-text-input
+                                id="name"
+                                class="block mt-1 w-full bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500"
+                                type="text"
+                                name="name"
+                                value="{{ $user->name }}"
+                                required
+                                autofocus
+                            />
+                            <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-400" />
+                        </div>
 
-                <div class="mb-4 flex items-center">
-                    <x-input-label for="is_admin" :value="__('Admin')" class="text-gray-300 mr-2" />
-                    <input id="is_admin" type="checkbox" name="is_admin" class="rounded border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ $user->is_admin ? 'checked' : '' }}>
-                </div>
+                        <!-- Correo Electrónico -->
+                        <div>
+                            <x-input-label for="email" :value="__('Correo Electrónico')" class="text-gray-300" />
+                            <x-text-input
+                                id="email"
+                                class="block mt-1 w-full bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500"
+                                type="email"
+                                name="email"
+                                value="{{ $user->email }}"
+                                required
+                            />
+                            <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400" />
+                        </div>
 
-                <div class="flex items-center justify-end mt-6">
-                    <x-primary-button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                        {{ __('Update') }}
-                    </x-primary-button>
-                </div>
-            </form>
-        </div>
-    </div>
-</x-app-layout>
-<x-app-layout>
-    <div class="container mx-auto py-8">
-        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-            <h1 class="text-3xl font-bold text-white mb-6">Edit User</h1>
-            <form method="POST" action="{{ route('admin.users.update', $user) }}">
-                @csrf
-                @method('PUT')
+                        <!-- Rol -->
+                        <div>
+                            <x-input-label for="role" :value="__('Rol')" class="text-gray-300" />
+                            <select
+                                id="role"
+                                name="role"
+                                class="block mt-1 w-full bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500 rounded-md"
+                            >
+                                @foreach($roles as $value => $label)
+                                    <option value="{{ $value }}" {{ $user->role == $value ? 'selected' : '' }}>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('role')" class="mt-2 text-red-400" />
+                        </div>
 
-                <div class="mb-4">
-                    <x-input-label for="name" :value="__('Name')" class="text-gray-300" />
-                    <x-text-input id="name" class="block mt-1 w-full p-3 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500" type="text" name="name" value="{{ $user->name }}" disabled />
+                        <!-- Botón de Actualizar -->
+                        <div class="flex items-center justify-end mt-6">
+                            <x-primary-button class="px-6 py-2 bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out rounded-md">
+                                {{ __('Actualizar Usuario') }}
+                            </x-primary-button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-4">
-                    <x-input-label for="email" :value="__('Email')" class="text-gray-300" />
-                    <x-text-input id="email" class="block mt-1 w-full p-3 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500" type="email" name="email" value="{{ $user->email }}" disabled />
-                </div>
-
-                <div class="mb-4 flex items-center">
-                    <x-input-label for="is_admin" :value="__('Admin')" class="text-gray-300 mr-2" />
-                    <input id="is_admin" type="checkbox" name="is_admin" class="rounded border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ $user->is_admin ? 'checked' : '' }}>
-                </div>
-
-                <div class="flex items-center justify-end mt-6">
-                    <x-primary-button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                        {{ __('Update') }}
-                    </x-primary-button>
-                </div>
-            </form>
-            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                @csrf
-                @method('DELETE')
-                <div class="flex items-center justify-end mt-6">
-                    <x-danger-button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                        {{ __('Delete') }}
-                    </x-danger-button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </x-app-layout>

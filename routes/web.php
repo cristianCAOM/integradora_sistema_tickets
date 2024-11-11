@@ -1,10 +1,12 @@
 <?php
+
 use App\Http\Controllers\Profile\AvatarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\TechnicianController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
@@ -26,8 +28,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $categories = \App\Models\Category::all();
-    return view('dashboard', compact('categories'));
+    if (auth()->user()->role == 'admin') {
+        return view('admin.dashboard');
+    } elseif (auth()->user()->role == 'technician') {
+        return view('technician.dashboard');
+    } else {
+        return view('dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -62,15 +69,17 @@ Route::get('/auth/github/callback', function () {
     return redirect('/dashboard');
 });
 
-// Rutas para administrar usuarios
+// Rutas para administrar usuarios y técnicos
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('users', UserController::class)->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('users', UserController::class)->except(['show']);
     Route::resource('categories', CategoryController::class); // Agrega las rutas para categorías
+    Route::get('/tickets/pdf', [TicketController::class, 'generatePDF'])->name('tickets.pdf'); // Ruta para generar PDF
+
 });
 
-Route::middleware('auth')->group(function () {
-    Route::resource('ticket', TicketController::class);
-    Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store');
+Route::middleware(['auth:technician'])->prefix('technician')->name('technician.')->group(function () {
+    Route::get('/dashboard', [TechnicianController::class, 'dashboard'])->name('dashboard');
+    Route::get('/tickets', [TechnicianController::class, 'tickets'])->name('tickets.index');
 });
 
 Route::middleware('auth')->group(function () {
@@ -78,5 +87,6 @@ Route::middleware('auth')->group(function () {
     Route::post('responses/{ticket}', [ResponseController::class, 'store'])->name('responses.store');
     Route::delete('responses/{response}', [ResponseController::class, 'destroy'])->name('responses.destroy');
 });
+
 Route::get('/tickets/pdf', [TicketController::class, 'generatePDF'])->name('tickets.pdf');
 Route::get('/tickets/pdf/preview', [TicketController::class, 'previewPDF'])->name('tickets.pdf.preview');

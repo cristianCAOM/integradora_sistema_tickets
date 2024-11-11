@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard Usuario') }}
+            {{ __('Dashboard de Administrador') }}
         </h2>
     </x-slot>
 
@@ -57,7 +57,7 @@
                     @endif
 
                     <!-- Tarjeta de Administrar Usuarios -->
-                    @if (Auth::user()->is_admin)
+                    @if (Auth::user()->isAdmin())
                     <div class="bg-gradient-to-r from-red-500 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                         <a href="{{ route('admin.users.index') }}" class="block text-white">
                             <h3 class="text-xl font-semibold mb-2">Administrar Usuarios</h3>

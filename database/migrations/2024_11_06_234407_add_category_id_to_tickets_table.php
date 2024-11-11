@@ -14,7 +14,10 @@ class AddCategoryIdToTicketsTable extends Migration
     public function up()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
+            if (!Schema::hasColumn('tickets', 'category_id')) {
+                $table->unsignedBigInteger('category_id')->nullable();
+                $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            }
         });
     }
 
