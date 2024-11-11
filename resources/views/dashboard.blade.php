@@ -67,6 +67,7 @@
                     @endif
 
                     <!-- Tarjeta de Generar Reporte PDF -->
+                    @if (Auth::user()->isAdmin())
                     <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                         <h3 class="text-xl font-semibold mb-2 text-white">Generar Reporte PDF</h3>
                         <p class="text-sm text-white mb-4">Genera o previsualiza un reporte PDF de todos los tickets creados.</p>
@@ -75,6 +76,7 @@
                             <a href="{{ route('tickets.pdf.preview') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Previsualizar PDF</a>
                         </div>
                     </div>
+                    @endif
 
                 </div>
             </div>
