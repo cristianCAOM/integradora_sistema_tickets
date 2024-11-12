@@ -2,7 +2,7 @@
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-6 sm:py-12">
         <div class="w-full sm:max-w-md bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 space-y-6">
             <!-- Título -->
-            <h1 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100">Agregar Categoría</h1>
+            <h1 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100">Cristian gay</h1>
 
             <!-- Formulario de Agregar Categoría -->
             <form method="POST" action="{{ route('admin.categories.store') }}" class="space-y-4">

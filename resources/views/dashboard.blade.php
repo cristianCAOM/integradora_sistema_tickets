@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard Usuario') }}
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
@@ -13,7 +13,7 @@
                     <p class="mt-2 text-gray-600 dark:text-gray-400">Aquí tienes un acceso rápido a tus tareas más frecuentes.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
 
                     <!-- Tarjeta de Ver Tickets -->
                     <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
@@ -57,7 +57,7 @@
                     @endif
 
                     <!-- Tarjeta de Administrar Usuarios -->
-                    @if (Auth::user()->is_admin)
+                    @if (Auth::user()->isAdmin())
                     <div class="bg-gradient-to-r from-red-500 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
                         <a href="{{ route('admin.users.index') }}" class="block text-white">
                             <h3 class="text-xl font-semibold mb-2">Administrar Usuarios</h3>
