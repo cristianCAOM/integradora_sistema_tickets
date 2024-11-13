@@ -18,22 +18,22 @@
         body {
             font-family: 'Figtree', sans-serif;
             color: #333;
-            background-color: #f9fafb;
+            background-color: #f0f2f5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 80px; /* espacio para el navbar */
+            padding-top: 80px;
             line-height: 1.6;
         }
 
-        /* Navbar minimalista */
+        /* Navbar mejorado */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
             background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -44,11 +44,10 @@
             margin: 0 1rem;
             text-decoration: none;
             font-weight: 600;
+            font-size: 1rem;
             transition: color 0.3s;
         }
-        .navbar a:hover {
-            color: #1e40af; /* azul más oscuro */
-        }
+        .navbar a:hover,
         .navbar a.active {
             color: #1e40af;
         }
@@ -56,11 +55,15 @@
         /* Sección de introducción */
         .hero-section {
             text-align: center;
-            padding: 4rem 1rem;
-            max-width: 800px;
+            padding: 5rem 2rem;
+            max-width: 900px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
         }
         .hero-section h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             color: #1e40af;
             margin-bottom: 1rem;
@@ -74,23 +77,24 @@
         /* Estilo de cada sección */
         .section {
             max-width: 800px;
-            width: 100%;
-            padding: 3rem 1rem;
+            width: 90%;
+            padding: 3rem 2rem;
             margin: 2rem 0;
             background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
         .section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
             color: #1e3a8a;
             text-align: center;
+            margin-bottom: 1rem;
         }
         .section p {
             font-size: 1rem;
             color: #4b5563;
             text-align: justify;
+            line-height: 1.8;
         }
 
         /* Estilo del pie de página */
@@ -108,7 +112,7 @@
     <!-- Navbar -->
     <div class="navbar">
         <div>
-            <a href="#home" class="active">Home</a>
+            <a href="#home" class="active">Inicio</a>
             <a href="#nosotros">Nosotros</a>
             <a href="#ubicacion">Ubicación</a>
         </div>
@@ -117,9 +121,9 @@
                 @auth
                     <a href="{{ url('/dashboard') }}">Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}">Log in</a>
+                    <a href="{{ route('login') }}">Iniciar sesión</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('register') }}">Registro</a>
                     @endif
                 @endauth
             @endif
@@ -129,21 +133,22 @@
     <!-- Sección de introducción -->
     <div id="home" class="hero-section">
         <h1>Bienvenido a SGMobile</h1>
+        <p>Tu solución integral para la gestión eficiente de soporte técnico en dispositivos móviles.</p>
     </div>
 
     <!-- Sección Nosotros -->
     <div id="nosotros" class="section">
-        <h2>Nosotros</h2>
-        <p>En SGMobile, somos un equipo apasionado por la tecnología y la eficiencia en la gestión de soporte técnico. Nos especializamos en brindar soluciones personalizadas para ayudar a empresas de reparación de dispositivos móviles a gestionar y resolver problemas de manera rápida y efectiva.</p>
+        <h2>Sobre nosotros</h2>
+        <p>En SGMobile, somos un equipo comprometido con la tecnología y la eficiencia en la gestión de soporte. Nuestra misión es ayudar a empresas de reparación de dispositivos móviles a optimizar sus procesos de servicio, para que puedan enfocarse en brindar una experiencia de calidad a sus clientes.</p>
     </div>
 
     <!-- Sección Ubicación -->
     <div id="ubicacion" class="section">
         <h2>Ubicación</h2>
-        <p>Visítanos en nuestra sede ubicada en el corazón de la ciudad o contáctanos a través de nuestros canales en línea. Estamos aquí para brindarte el mejor soporte posible.</p>
+        <p>Nos ubicamos en el corazón de la ciudad para estar más cerca de ti. Visítanos o contáctanos en línea, y descubre cómo podemos ayudarte a llevar tu negocio al siguiente nivel.</p>
     </div>
-    <!-- Pie de página -->
 
+    <!-- Pie de página -->
     <footer>
         &copy; {{ date('Y') }} SGMobile. Todos los derechos reservados.
     </footer>
