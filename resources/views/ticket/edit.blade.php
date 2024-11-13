@@ -49,16 +49,16 @@
                             <x-input-error :messages="$errors->get('urgency')" class="mt-2" />
                         </div>
 
-                        <!-- Estado -->
-                        <div class="mb-6">
-                            <x-input-label for="status" :value="__('Estado')" />
-                            <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900">
-                                <option value="Abierto" {{ $ticket->status == 'Abierto' ? 'selected' : '' }}>Abierto</option>
-                                <option value="Resuelto" {{ $ticket->status == 'Resuelto' ? 'selected' : '' }}>Resuelto</option>
-                                <option value="Rechazado" {{ $ticket->status == 'Rechazado' ? 'selected' : '' }}>Rechazado</option>
-                            </select>
-                            <x-input-error :messages="$errors->get('status')" class="mt-2" />
-                        </div>
+                        <!-- Estado del Ticket -->
+                <div class="mb-6">
+                    <x-input-label for="status" :value="__('Estado del Ticket')" />
+                    <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900">
+                        @foreach(App\Enums\TicketStatus::cases() as $status)
+                            <option value="{{ $status->value }}" {{ $ticket->status->value == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                </div>
 
                         <!-- Técnico Asignado -->
                         <div class="mb-6">

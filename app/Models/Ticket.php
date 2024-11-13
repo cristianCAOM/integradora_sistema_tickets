@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\TicketStatus;
 
 class Ticket extends Model
 {
@@ -18,6 +19,9 @@ class Ticket extends Model
         'urgency',
         'category_id', // Agrega el campo category_id aquí
         'technician_id',
+    ];
+    protected $casts = [
+        'status' => TicketStatus::class,
     ];
 
     public function user()

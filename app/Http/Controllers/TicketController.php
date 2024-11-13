@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Enums\TicketStatus;
 
 class TicketController extends Controller
 {
@@ -60,6 +61,7 @@ class TicketController extends Controller
             'user_id' => auth()->id(),
             'urgency' => $request->urgency,
             'category_id' => $request->category,
+            'status' => 'open',
         ]);
 
         if ($request->file('attachment')) {
@@ -110,7 +112,7 @@ class TicketController extends Controller
             'category' => 'required|exists:categories,id',
             'urgency' => 'required|string',
             'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx',
-            'status' => 'required|string|in:Abierto,Resuelto,Rechazado',
+            'status' => 'required|string|in:Abierto,En Revisión,En Reparación,Finalizado',
             'technician_id' => 'nullable|exists:users,id',
         ]);
 
@@ -119,7 +121,7 @@ class TicketController extends Controller
             'description' => $request->description,
             'category_id' => $request->category,
             'urgency' => $request->urgency,
-            'status' => $request->status,
+            'status' => TicketStatus::from($request->status),
             'technician_id' => $request->technician_id,
         ]);
 
@@ -131,6 +133,8 @@ class TicketController extends Controller
             $ticket->attachment = $this->storeAttachment($request, $ticket);
             $ticket->save();
         }
+
+
 
         return redirect()->route('ticket.show', $ticket)->with('success', 'Ticket actualizado exitosamente.');
     }
