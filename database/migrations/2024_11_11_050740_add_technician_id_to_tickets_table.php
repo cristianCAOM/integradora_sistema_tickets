@@ -16,7 +16,7 @@ class AddTechnicianIdToTicketsTable extends Migration
         Schema::table('tickets', function (Blueprint $table) {
             if (!Schema::hasColumn('tickets', 'technician_id')) {
                 $table->unsignedBigInteger('technician_id')->nullable()->after('status');
-                $table->foreign('technician_id')->references('id')->on('technicians')->onDelete('set null');
+                $table->foreign('technician_id')->references('id')->on('users')->onDelete('set null');
             }
         });
     }
