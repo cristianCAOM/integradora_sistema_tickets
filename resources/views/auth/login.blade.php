@@ -58,5 +58,12 @@
                 {{ __('Iniciar sesión') }}
             </x-primary-button>
         </div>
+
+        <!-- Botón de Iniciar Sesión con Google -->
+        <div class="flex items-center justify-center mt-4">
+            <a href="{{ route('auth.google') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                {{ __('Iniciar sesión con Google') }}
+            </a>
+        </div>
     </form>
 </x-guest-layout>

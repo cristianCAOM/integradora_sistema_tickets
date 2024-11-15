@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +91,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/tickets/pdf', [TicketController::class, 'generatePDF'])->name('tickets.pdf');
 Route::get('/tickets/pdf/preview', [TicketController::class, 'previewPDF'])->name('tickets.pdf.preview');
+
+// Rutas para autenticación con Google
+Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+// Ruta para logout
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
