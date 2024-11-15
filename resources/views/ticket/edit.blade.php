@@ -50,20 +50,25 @@
                         </div>
 
                         <!-- Estado del Ticket -->
-                <div class="mb-6">
-                    <x-input-label for="status" :value="__('Estado del Ticket')" />
-                    <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900">
-                        @foreach(App\Enums\TicketStatus::cases() as $status)
-                            <option value="{{ $status->value }}" {{ $ticket->status->value == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
-                </div>
+                        <div class="mb-6">
+                            <x-input-label for="status" :value="__('Estado del Ticket')" />
+                            <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" @if(!Auth::user()->is_admin) disabled @endif>
+                                @foreach(App\Enums\TicketStatus::cases() as $status)
+                                    <option value="{{ $status->value }}" {{ $ticket->status->value == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                        </div>
+
+                        @if(!Auth::user()->is_admin)
+                            <!-- Campo Oculto para Estado del Ticket -->
+                            <input type="hidden" name="status" value="{{ $ticket->status->value }}">
+                        @endif
 
                         <!-- Técnico Asignado -->
                         <div class="mb-6">
                             <x-input-label for="technician_id" :value="__('Técnico Asignado')" />
-                            <select id="technician_id" name="technician_id" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900">
+                            <select id="technician_id" name="technician_id" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" @if(!Auth::user()->is_admin) disabled @endif>
                                 <option value="">No asignado</option>
                                 @foreach($technicians as $id => $name)
                                     <option value="{{ $id }}" {{ $ticket->technician_id == $id ? 'selected' : '' }}>{{ $name }}</option>
@@ -71,6 +76,11 @@
                             </select>
                             <x-input-error :messages="$errors->get('technician_id')" class="mt-2" />
                         </div>
+
+                        @if(!Auth::user()->is_admin)
+                            <!-- Campo Oculto para Técnico Asignado -->
+                            <input type="hidden" name="technician_id" value="{{ $ticket->technician_id }}">
+                        @endif
 
                         <!-- Adjuntar Archivo -->
                         <div class="mb-6">

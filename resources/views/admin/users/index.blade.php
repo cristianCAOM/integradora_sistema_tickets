@@ -3,7 +3,7 @@
         <div class="bg-gray-800 rounded-lg shadow-md p-6">
             <h1 class="text-3xl font-bold text-white mb-4">Gestión de Usuarios</h1>
 
-            <div class="overflow-hidden rounded-lg">
+            <div class="overflow-x-auto">
                 <table class="min-w-full bg-gray-900 border border-gray-700">
                     <thead class="bg-gray-700">
                         <tr>

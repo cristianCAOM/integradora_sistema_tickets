@@ -61,7 +61,7 @@ class TicketController extends Controller
             'user_id' => auth()->id(),
             'urgency' => $request->urgency,
             'category_id' => $request->category,
-            'status' => 'open',
+            'status' => TicketStatus::OPEN,
         ]);
 
         if ($request->file('attachment')) {
@@ -121,22 +121,16 @@ class TicketController extends Controller
             'description' => $request->description,
             'category_id' => $request->category,
             'urgency' => $request->urgency,
-            'status' => TicketStatus::from($request->status),
+            'status' => $request->status,
             'technician_id' => $request->technician_id,
         ]);
 
         if ($request->file('attachment')) {
-            // Eliminar el archivo adjunto anterior si existe
-            if ($ticket->attachment) {
-                Storage::disk('public')->delete($ticket->attachment);
-            }
             $ticket->attachment = $this->storeAttachment($request, $ticket);
             $ticket->save();
         }
 
-
-
-        return redirect()->route('ticket.show', $ticket)->with('success', 'Ticket actualizado exitosamente.');
+        return redirect()->route('ticket.index')->with('success', 'Ticket actualizado correctamente.');
     }
 
     /**

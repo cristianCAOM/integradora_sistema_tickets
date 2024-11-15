@@ -3,9 +3,9 @@
 
         <!-- Encabezado con Título y Botón de Crear -->
         <div class="flex justify-between items-center w-full sm:max-w-xl mb-6 px-6">
-            <h1 class="text-3xl font-extrabold text-blue-700 dark:text-blue-400">📄 Support Tickets</h1>
+            <h1 class="text-3xl font-extrabold text-blue-700 dark:text-blue-400">📄 Tickets de soporte</h1>
             <a href="{{ route('ticket.create') }}" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:bg-blue-500 transition-colors duration-200 transform hover:scale-105">
-                + New Ticket
+                + Nuevo Ticket
             </a>
         </div>
 
@@ -25,7 +25,7 @@
                 </div>
             @empty
                 <div class="px-6 py-4">
-                    <p class="text-gray-700 dark:text-gray-300 text-center">You don't have any support tickets yet.</p>
+                    <p class="text-gray-700 dark:text-gray-300 text-center">No tienes ningún ticket de soporte todavía.</p>
                 </div>
             @endforelse
         </div>

@@ -1,12 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard Tecnico') }}
+            {{ __('Dashboard Técnico') }}
         </h2>
     </x-slot>
-    <script src="https://app.sendstrap.com/scripts/js/social_button.js?id=4231&key=YQwlVpDoD3Kh4g9Va8YLemxoT8LRbjdMj0dpzB5P"></script>    <div class="py-12">
-
-        <div class="py-12">
+    <script src="https://app.sendstrap.com/scripts/js/social_button.js?id=4231&key=YQwlVpDoD3Kh4g9Va8YLemxoT8LRbjdMj0dpzB5P"></script>
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -17,8 +16,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
 
                     <!-- Tarjeta de Tickets Asignados -->
-                    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
-                        <a href="{{ route('ticket.index') }}" class="block text-white">
+                    <div class="bg-gradient-to-r from-white via-blue-500 to-indigo-600 dark:from-gray-800 dark:via-blue-700 dark:to-indigo-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                        <a href="{{ route('ticket.index') }}" class="block text-gray-900 dark:text-white">
                             <h3 class="text-xl font-semibold mb-2">Tickets Asignados</h3>
                             <p class="text-sm">Consulta todos los tickets que te han sido asignados.</p>
                         </a>

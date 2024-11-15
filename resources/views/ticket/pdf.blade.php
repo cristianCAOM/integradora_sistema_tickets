@@ -27,7 +27,8 @@
             <tr>
                 <th>ID</th>
                 <th>Título</th>
-                <th>Descripción</th>
+               {{--  <th>Descripción</th> --}}
+                <th>Urgencia</th>
                 <th>Estado</th>
                 <th>Técnico Asignado</th>
             </tr>
@@ -37,7 +38,8 @@
                 <tr>
                     <td>{{ $ticket->id }}</td>
                     <td>{{ $ticket->title }}</td>
-                    <td>{{ $ticket->description }}</td>
+                    {{-- <td>{{ $ticket->description }}</td> --}}
+                    <td>{{ $ticket->urgency }}</td>
                     <td>{{ $ticket->status }}</td>
                     <td>{{ $ticket->technician ? $ticket->technician->name : 'No asignado' }}</td>
                 </tr>

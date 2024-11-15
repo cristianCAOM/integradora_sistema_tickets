@@ -12,14 +12,14 @@
                 <!-- Campo de Título -->
                 <div class="mt-4">
                     <x-input-label for="title" :value="__('Titulo')" class="text-gray-800 dark:text-gray-100" />
-                    <x-text-input id="title" class="block mt-2 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500" type="text" name="title" placeholder="Enter ticket title" autofocus />
+                    <x-text-input id="title" class="block mt-2 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500" type="text" name="title" placeholder="Introduzca el título del ticket" autofocus />
                     <x-input-error :messages="$errors->get('title')" class="mt-2 text-red-600" />
                 </div>
 
                 <!-- Campo de Descripción -->
                 <div class="mt-4">
                     <x-input-label for="description" :value="__('Descripción')" class="text-gray-800 dark:text-gray-100" />
-                    <textarea id="description" name="description" class="form-textarea block w-full mt-2 border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500" placeholder="Add description"></textarea>
+                    <textarea id="description" name="description" class="form-textarea block w-full mt-2 border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 focus:border-blue-500 focus:ring-blue-500" placeholder="Añadir descripción"></textarea>
                     <x-input-error :messages="$errors->get('description')" class="mt-2 text-red-600" />
                 </div>
 
