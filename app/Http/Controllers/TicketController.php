@@ -107,7 +107,7 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:30',
             'description' => 'required|string',
             'category' => 'required|exists:categories,id',
             'urgency' => 'required|string',
