@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketCreated extends Notification
+class TechnicianAssigned extends Notification
 {
     use Queueable;
 
@@ -42,8 +42,8 @@ class TicketCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Nuevo Ticket Creado')
-                    ->line('Se ha creado un nuevo ticket.')
+                    ->subject('Técnico Asignado a Ticket')
+                    ->line('Se te ha asignado un nuevo ticket.')
                     ->action('Ver Ticket', url('/ticket/' . $this->ticket->id))
                     ->line('Gracias por usar nuestra aplicación!');
     }

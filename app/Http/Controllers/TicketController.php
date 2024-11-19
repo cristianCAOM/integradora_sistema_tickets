@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Enums\TicketStatus;
 use App\Notifications\TicketCreated;
+use App\Notifications\TicketUpdated;
+use App\Notifications\TechnicianAssigned;
+
 
 class TicketController extends Controller
 {
@@ -70,15 +73,25 @@ class TicketController extends Controller
             $ticket->save();
         }
 
-        // Enviar notificación al usuario autenticado
-        $user = auth()->user();
-        $user->notify(new TicketCreated($ticket));
+       // Enviar notificación al administrador
+       $admin = User::where('role', 'admin')->first();
+       if ($admin) {
+           $admin->notify(new TicketCreated($ticket));
+       }
 
-        // Enviar notificación al administrador
-        $admin = User::where('role', 'admin')->first();
-        if ($admin) {
-            $admin->notify(new TicketCreated($ticket));
-        }
+       // Enviar notificación al técnico asignado
+       if ($ticket->technician_id) {
+           $technician = User::find($ticket->technician_id);
+           if ($technician) {
+               $technician->notify(new TechnicianAssigned($ticket));
+           }
+       }
+
+      // Enviar notificación al usuario del ticket
+      $ticketUser = User::find($ticket->user_id);
+      if ($ticketUser) {
+          $ticketUser->notify(new TicketUpdated($ticket));
+      }
 
         return redirect()->route('ticket.index')->with('success', 'Ticket creado exitosamente.');
     }
@@ -141,15 +154,24 @@ class TicketController extends Controller
             $ticket->save();
         }
 
-        // Enviar notificación al usuario autenticado
-            $user = auth()->user();
-            $user->notify(new TicketCreated($ticket));
+        $ticketUser = User::find($ticket->user_id);
+        if ($ticketUser) {
+            $ticketUser->notify(new TicketUpdated($ticket));
+        }
 
-            // Enviar notificación al administrador
-            $admin = User::where('role', 'admin')->first();
-            if ($admin) {
-                $admin->notify(new TicketCreated($ticket));
+        // Enviar notificación al administrador
+        $admin = User::where('role', 'admin')->first();
+        if ($admin) {
+            $admin->notify(new TicketUpdated($ticket));
+        }
+
+        // Enviar notificación al técnico asignado
+        if ($ticket->technician_id) {
+            $technician = User::find($ticket->technician_id);
+            if ($technician) {
+                $technician->notify(new TechnicianAssigned($ticket));
             }
+        }
 
                 return redirect()->route('ticket.index')->with('success', 'Ticket actualizado correctamente.');
             }
