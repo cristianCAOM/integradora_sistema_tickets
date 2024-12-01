@@ -100,5 +100,4 @@ Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('a
 Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 
-
-require __DIR__.'/auth.php';
+Route::post('/admin/users/{user}/make-admin', [UserController::class, 'makeAdmin'])->name('admin.users.makeAdmin');require __DIR__.'/auth.php';

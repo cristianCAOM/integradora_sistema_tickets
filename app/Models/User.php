@@ -25,8 +25,8 @@ class User extends Authenticatable
         'password',
         'google_id',
         'role', // Cambiado de 'is_admin' a 'role'
+        'is_admin', // Eliminado
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -63,6 +63,8 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+        return $this->is_admin == 1;
+
     }
 
     public function isTechnician()

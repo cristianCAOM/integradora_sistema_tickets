@@ -27,15 +27,38 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|string|in:admin,technician,user',
         ]);
-
+    
+        // Actualizar el rol del usuario
         $user->update($request->all());
-
+    
+        // Actualizar el campo is_admin basado en el rol
+        if ($request->role == 'admin') {
+            $user->is_admin = 1;
+        } else {
+            $user->is_admin = 0;
+        }
+        $user->save();
+    
         return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado exitosamente.');
     }
+    
+public function makeAdmin(User $user)
+{
+    // Asignar el rol de administrador
+    $adminRole = Role::where('name', 'admin')->first();
+    $user->roles()->sync([$adminRole->id]);
 
+    // Actualizar el campo is_admin
+    $user->is_admin = 1;
+    $user->save();
+
+    return redirect()->route('admin.users.index')->with('success', 'El usuario ahora es administrador.');
+}
     public function destroy(User $user)
     {
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
+
+    
 }
