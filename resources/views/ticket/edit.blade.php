@@ -57,7 +57,7 @@
                         <!-- Estado del Ticket -->
                         <div class="mb-6">
                             <x-input-label for="status" :value="__('Estado del Ticket')" />
-                            <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900"  @if(!Auth::user()->is_admin) disabled @endif>
+                            <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900"  @if(!Auth::user()->is_admin && !Auth::user()->isTechnician()) disabled @endif>
                                 @foreach(App\Enums\TicketStatus::cases() as $status)
                                     <option value="{{ $status->value }}" {{ $ticket->status->value == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
                                 @endforeach
@@ -65,7 +65,7 @@
                             <x-input-error :messages="$errors->get('status')" class="mt-2" />
                         </div>
 
-                        @if(!Auth::user()->is_admin)
+                        @if(!Auth::user()->is_admin && !Auth::user()->isTechnician())
                             <!-- Campo Oculto para Estado del Ticket -->
                             <input type="hidden" name="status" value="{{ $ticket->status->value }}">
                         @endif
