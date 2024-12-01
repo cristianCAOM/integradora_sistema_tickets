@@ -191,11 +191,16 @@ class TicketController extends Controller
         return redirect()->route('ticket.index')->with('success', 'Ticket eliminado exitosamente.');
     }
 
-    protected function storeAttachment($request, $ticket)
+    public function storeAttachment($request, $ticket)
     {
+        $mod = $request->file('attachment');
         $ext = $request->file('attachment')->extension();
-        $filename = Str::random(25) . '.' . $ext;
-        $path = $request->file('attachment')->storeAs('attachments', $filename, 'public');
+        $mod = $filename = Str::random(25) . '.' . $ext;
+        /* $path = $request->file('attachment')->move(public_path("attachments"), $filename); */
+        $path = $request->file('attachment')->storeAs($filename);
+        //$path = $request->file('attachment')->storeAs('attachments', $filename);
+        $path = 'attachments/' . $filename;
+        $request->file('attachment')->move(public_path('attachments'), $filename);
         return $path;
     }
 

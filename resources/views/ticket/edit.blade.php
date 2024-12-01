@@ -1,14 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Editar Ticket') }}
-        </h2>
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-500 text-white py-6 shadow-lg rounded-md">
+            <h2 class="text-3xl font-extrabold text-center uppercase tracking-wide">
+                {{ __('Editar Ticket') }}
+            </h2>
+        </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
-                <div class="p-8 text-gray-900 dark:text-gray-100">
+            <div class="bg-white shadow-xl rounded-xl overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-white py-5 text-center">
+                    <h3 class="text-xl font-semibold uppercase">{{ __('Modifica los detalles del ticket') }}</h3>
+                </div>
+                <div class="p-8 text-gray-700">
                     <form method="POST" action="{{ route('ticket.update', $ticket->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
@@ -52,7 +57,7 @@
                         <!-- Estado del Ticket -->
                         <div class="mb-6">
                             <x-input-label for="status" :value="__('Estado del Ticket')" />
-                            <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" @if(!Auth::user()->is_admin) disabled @endif>
+                            <select id="status" name="status" class="block mt-2 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900"  @if(!Auth::user()->is_admin) disabled @endif>
                                 @foreach(App\Enums\TicketStatus::cases() as $status)
                                     <option value="{{ $status->value }}" {{ $ticket->status->value == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
                                 @endforeach

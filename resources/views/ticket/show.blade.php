@@ -16,13 +16,30 @@
                     <p class="mt-2 text-gray-800 dark:text-gray-300">{{ $ticket->description }}</p>
                 </div>
 
-                @if ($ticket->attachment)
+               <!--  @if ($ticket->attachment)
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Archivo Adjunto</h3>
+                    <a href="{{ asset('/storage/app/public/' . $ticket->attachment) }}" target="_blank" class="text-blue-500 hover:text-blue-700 underline mt-2 inline-block">Ver Archivo</a>
+                </div>
+                 @endif -->
+               <!--  @if ($ticket->attachment)
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Archivo Adjunto</h3>
-                        <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank" class="text-blue-500 hover:text-blue-700 underline mt-2 inline-block">Ver Archivo</a>
+<a href="{{ asset( $ticket->attachment) }}" target="_blank" class="text-blue-500 hover:text-blue-700 underline mt-2 inline-block">Ver Archivo</a>
+                       <a href="/attachments/{{$ticket->attachment}}" target="_blank" class="text-blue-500 hover:text-blue-700 underline mt-2 inline-block">Ver Archivo</a>
+                            <img src="/attachments/{{$ticket->attachment}}" width="60">
+
+                            
+
+                    </div>
+                @endif -->
+                @if ($ticket->attachment)
+                    <div>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Archivo Adjunto</h3>
+                    <a href="{{ asset($ticket->attachment) }}" target="_blank" class="text-blue-500 hover:text-blue-700 underline mt-2 inline-block">Ver Archivo</a>
+                    <img src="{{ asset($ticket->attachment) }}" width="60" alt="Archivo Adjunto">
                     </div>
                 @endif
-
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Estado</h3>
                     <div class="mt-2">

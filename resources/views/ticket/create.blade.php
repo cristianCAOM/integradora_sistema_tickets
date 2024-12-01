@@ -45,8 +45,8 @@
                     </select>
                     <x-input-error :messages="$errors->get('urgency')" class="mt-2 text-red-600" />
                 </div>
-
-                <!-- Campo de Adjunto -->
+                
+                <!-- Adjuntar Archivo -->
                 <div class="mt-4">
                     <x-input-label for="attachment" :value="__('Attachment/Adjuntar Archivo (Opcional)')" class="text-gray-800 dark:text-gray-100" />
                     <input type="file" name="attachment" id="attachment" class="block w-full text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-700 dark:bg-gray-700 mt-2 px-2 py-2 rounded-lg focus:border-blue-500 focus:ring-blue-500">

@@ -28,6 +28,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/offline', function(){
+    return view('vendor.laravelpwa.offline');
+});
+
 Route::get('/dashboard', function () {
     if (auth()->user()->role == 'admin') {
         return view('admin.dashboard');
@@ -45,7 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
 
 Route::get('/auth/github', function () {
     return Socialite::driver('github')->redirect();
@@ -96,5 +99,6 @@ Route::get('/tickets/pdf/preview', [TicketController::class, 'previewPDF'])->nam
 Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
-// Ruta para logout
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+
+require __DIR__.'/auth.php';

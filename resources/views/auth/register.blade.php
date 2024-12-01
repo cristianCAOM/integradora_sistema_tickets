@@ -1,80 +1,165 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}" class="max-w-md mx-auto bg-gray-900 p-8 rounded-lg shadow-md">
-        @csrf
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-        <h2 class="text-2xl font-semibold text-white text-center mb-6">Registrarse</h2>
+        .register-container {
+            background-color: #ffffff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
 
-        <!-- Name -->
-        <div class="mb-4">
-            <x-input-label for="name" :value="__('Nombre')" class="text-gray-300" />
-            <x-text-input
-                id="name"
-                class="block mt-1 w-full p-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500"
-                type="text"
-                name="name"
-                :value="old('name')"
-                required
-                autofocus
-                autocomplete="name"
-                placeholder="Ingresa tu nombre"
-            />
-            <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-500" />
-        </div>
+        .register-container h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
 
-        <!-- Email Address -->
-        <div class="mb-4">
-            <x-input-label for="email" :value="__('Correo')" class="text-gray-300" />
-            <x-text-input
-                id="email"
-                class="block mt-1 w-full p-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500"
-                type="email"
-                name="email"
-                :value="old('email')"
-                required
-                autocomplete="username"
-                placeholder="Ingresa tu email"
-            />
-            <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500" />
-        </div>
+        .register-container label {
+            color: #555;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
 
-        <!-- Password -->
-        <div class="mb-4">
-            <x-input-label for="password" :value="__('Contraseña')" class="text-gray-300" />
-            <x-text-input
-                id="password"
-                class="block mt-1 w-full p-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500"
-                type="password"
-                name="password"
-                required
-                autocomplete="new-password"
-                placeholder="Ingresa tu contraseña"
-            />
-            <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500" />
-        </div>
+        .register-container input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
 
-        <!-- Confirm Password -->
-        <div class="mb-4">
-            <x-input-label for="password_confirmation" :value="__('Confirma Contraseña')" class="text-gray-300" />
-            <x-text-input
-                id="password_confirmation"
-                class="block mt-1 w-full p-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded focus:outline-none focus:ring focus:ring-indigo-500"
-                type="password"
-                name="password_confirmation"
-                required
-                autocomplete="new-password"
-                placeholder="Confirma tu contraseña"
-            />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-500" />
-        </div>
+        .register-container input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
 
-        <div class="flex items-center justify-between mt-4">
-            <a class="underline text-sm text-gray-400 hover:text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('¿Ya estas registrado?') }}
-            </a>
+        .register-container a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
 
-            <x-primary-button class="bg-indigo-600 hover:bg-indigo-500 text-white rounded px-4 py-2">
-                {{ __('Registrarse') }}
-            </x-primary-button>
-        </div>
-    </form>
+        .register-container a:hover {
+            text-decoration: underline;
+        }
+
+        .register-container button {
+            background-color: #667eea;
+            color: #ffffff;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .register-container button:hover {
+            background-color: #4c51bf;
+            transform: scale(1.05);
+        }
+
+        .register-container .footer-text {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .register-container .footer-text a {
+            color: #667eea;
+        }
+    </style>
+
+    <div class="register-container">
+        <h2>REGISTRARSE</h2>
+
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <!-- Name -->
+            <div>
+                <label for="name">{{ __('Nombre') }}</label>
+                <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    :value="old('name')"
+                    required
+                    autofocus
+                    autocomplete="name"
+                    placeholder="Ingresa tu nombre"
+                />
+                <x-input-error :messages="$errors->get('name')" class="text-red-500" />
+            </div>
+
+            <!-- Email Address -->
+            <div>
+                <label for="email">{{ __('Correo') }}</label>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    :value="old('email')"
+                    required
+                    autocomplete="username"
+                    placeholder="Ingresa tu email"
+                />
+                <x-input-error :messages="$errors->get('email')" class="text-red-500" />
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="password">{{ __('Contraseña') }}</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                    autocomplete="new-password"
+                    placeholder="Ingresa tu contraseña"
+                />
+                <x-input-error :messages="$errors->get('password')" class="text-red-500" />
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                <label for="password_confirmation">{{ __('Confirma Contraseña') }}</label>
+                <input
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    required
+                    autocomplete="new-password"
+                    placeholder="Confirma tu contraseña"
+                />
+                <x-input-error :messages="$errors->get('password_confirmation')" class="text-red-500" />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">{{ __('Registrarse') }}</button>
+        </form>
+
+        <p class="footer-text">
+            {{ __('¿Ya estás registrado?') }} <a href="{{ route('login') }}">{{ __('Inicia sesión') }}</a>
+        </p>
+    </div>
 </x-guest-layout>
