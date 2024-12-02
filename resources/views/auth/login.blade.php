@@ -152,6 +152,9 @@
         <button class="google-login">
             <a href="{{ route('auth.google') }}">{{ __('Iniciar sesión con Google') }}</a>
         </button>
+        <!-- Olvide mi constraseña -->
+        <a href="{{ route('password.request') }}">{{ __('Olvidé mi contraseña') }}</a>
+            
 
         <p class="footer-text">
             ¿No tienes cuenta? <a href="{{ route('register') }}">{{ __('Regístrate') }}</a>
